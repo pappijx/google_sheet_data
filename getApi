@@ -1,0 +1,27 @@
+function doGet(e) {
+  
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  let ws = ss.getSheetByName("all");
+  
+  const data = ws.getRange("A1").getDataRegion().getValues();
+
+  const headers = data.shift();
+
+  const jsonArray = data.map(row => {
+    let obj = {};
+    headers.forEach((header, i) => {
+      obj[header] = row[i];
+    });
+
+    return obj;
+  });
+
+
+  const response = [{jsonArray}];  
+  
+  return contService = ContentService.createTextOutput(JSON.stringify(response)).setMimeType(ContentService.MimeType.JSON);
+  
+
+}
+
